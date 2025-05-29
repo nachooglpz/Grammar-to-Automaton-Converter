@@ -2,8 +2,8 @@ library(igraph)
 library(shiny)
 
 # Cargar funciones
-getwd()
-setwd('/Users/bernardo/Documents/Grammar-to-Automaton-Converter')
+# getwd()
+# setwd('/home/nacho/Documents/Grammar-to-Automaton-Converter')
 source('functions.R')
 
 ui <- fluidPage(
