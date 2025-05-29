@@ -16,19 +16,19 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      verbatimTextOutput("outputtext"),
-      verbatimTextOutput("transitions") 
+      verbatimTextOutput("outputText"),
+      plotOutput("outputPlot")
     )
   )
 )
 
 server <- function(input, output) {
   
-  output$outputtext <- renderText({
+  output$outputText <- renderText({
     paste0("Output: ", input$myinputtext)
   })
   
-  output$transitions <- renderPrint({
+  output$outputPlot <- renderPlot({
     lines <- strsplit(input$myinputtext, "\n")[[1]]
     transitions <- list()
     
@@ -43,7 +43,15 @@ server <- function(input, output) {
       print("No valid transitions found.")
     } else {
       # print(transitions)
-      grammarToAutomaton(transitions)
+      g_obj <- grammarToAutomaton(transitions)
+      
+      print(g_obj)
+      
+      g <- g_obj$graph
+      edges <- g_obj$edges
+      
+      set.seed(123)
+      plot(g, edge.label = edges)
     }
   })
   

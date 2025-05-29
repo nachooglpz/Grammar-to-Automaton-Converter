@@ -6,21 +6,14 @@ grammarToAutomaton <- function(listTransitions) {
   transitions = c()
   edges = c()
   for (item in listTransitions) {
-    transitions <- c(transitions, item[[1]], item[[2]][[2]])
-    edges <- c(edges, item[[2]][[1]])
+    transitions <- c(transitions, item[[1]], item[[2]][[2]]) # Creates the transitions list
+    edges <- c(edges, item[[2]][[1]]) # Creates the edges list
   }
   
-  # Graphs what we have
-  g <- graph(transitions, directed = TRUE)
-  set.seed(123)
-  plot(g, edge.label = edges)
+  g <- graph(transitions, directed = TRUE) # Creates the graph object
   
-  # Test
-  # print('Transitions: ')
-  # print(transitions)
-  # print('Edges: ')
-  # print(edges)
-  
+  # Returns the graph elements
+  return(list(graph = g, edges = edges))
 }
 
 parseGrammarLine <- function(line) {
