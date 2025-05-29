@@ -42,7 +42,8 @@ server <- function(input, output) {
     if (length(transitions) == 0) {
       print("No valid transitions found.")
     } else {
-      print(transitions)
+      # print(transitions)
+      grammarToAutomaton(transitions)
     }
   })
   

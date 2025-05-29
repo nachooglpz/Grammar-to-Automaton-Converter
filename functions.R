@@ -1,4 +1,25 @@
-grammarToAutomaton <- function(text) {
+# install.packages("igraph")
+library(igraph)
+
+# Converts the grammar line to a transition list and an edge list
+grammarToAutomaton <- function(listTransitions) {
+  transitions = c()
+  edges = c()
+  for (item in listTransitions) {
+    transitions <- c(transitions, item[[1]], item[[2]][[2]])
+    edges <- c(edges, item[[2]][[1]])
+  }
+  
+  # Graphs what we have
+  g <- graph(transitions, directed = TRUE)
+  set.seed(123)
+  plot(g, edge.label = edges)
+  
+  # Test
+  # print('Transitions: ')
+  # print(transitions)
+  # print('Edges: ')
+  # print(edges)
   
 }
 
