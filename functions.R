@@ -38,11 +38,26 @@ parseGrammarLine <- function(line) {
 isDeterministic <- function(transitions) {
   # Creamos un vector de claves únicas tipo "estado|caracter"
   keys <- character()
+  charCounts <- list()
+  uniqueStates <- character()
   
   for (transition in transitions) {
     state <- transition[[1]]
     char <- transition[[2]][[1]]
     
+    # Si es un nuevo estado, lo agregamos a la lista
+    if (!(state %in% uniqueStates)) {
+      uniqueStates <- c(uniqueStates, state)
+    }
+    
+    # Diccionario de Char: Count
+    if (char %in% names(charCounts)) {
+      charCounts[[char]] <- charCounts[[char]] + 1
+    } else {
+      charCounts[[char]] <- 1
+    }
+    
+    # Revisar estados con transiciones duplicadas
     key <- paste(state, char, sep = "|")  # Ejemplo: "S|a"
     
     if (key %in% keys) {
@@ -50,6 +65,19 @@ isDeterministic <- function(transitions) {
     }
     
     keys <- c(keys, key)  # Agregamos la clave
+  }
+  
+  # Revisar que el contador de uniqueStates sea igual al número
+  # de estados únicos
+  uniqueStatesCout <- length(uniqueStates)
+  charCountsDF <- data.frame(
+    character = names(charCounts),
+    count = as.numeric(charCounts),
+    stringsAsFactors = FALSE
+  )
+  # Cada caracter == uniqueStatesCount
+  if (any(charCountsDF$count < uniqueStatesCout)) {
+    return(FALSE)
   }
   
   return(TRUE)  # Si no hay duplicados, es determinista

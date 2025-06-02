@@ -24,10 +24,6 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  output$outputText <- renderText({
-    paste0("Output: ", input$myinputtext)
-  })
-  
   output$outputPlot <- renderPlot({
     lines <- strsplit(input$myinputtext, "\n")[[1]]
     transitions <- list()
