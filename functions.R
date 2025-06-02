@@ -35,5 +35,27 @@ parseGrammarLine <- function(line) {
   }
 }
 
+isDeterministic <- function(transitions) {
+  # Creamos un vector de claves únicas tipo "estado|caracter"
+  keys <- character()
+  
+  for (transition in transitions) {
+    state <- transition[[1]]
+    char <- transition[[2]][[1]]
+    
+    key <- paste(state, char, sep = "|")  # Ejemplo: "S|a"
+    
+    if (key %in% keys) {
+      return(FALSE)  # Si el par ya existe, no es determinista
+    }
+    
+    keys <- c(keys, key)  # Agregamos la clave
+  }
+  
+  return(TRUE)  # Si no hay duplicados, es determinista
+}
+
+
+
 
 

@@ -42,13 +42,14 @@ server <- function(input, output) {
     if (length(transitions) == 0) {
       print("No valid transitions found.")
     } else {
-      # print(transitions)
       g_obj <- grammarToAutomaton(transitions)
-      
-      print(g_obj)
       
       g <- g_obj$graph
       edges <- g_obj$edges
+      
+      # Llamar a isDeterministic y mostrar resultado en consola
+      deterministic <- isDeterministic(transitions)
+      print(paste("¿Es determinista?:", deterministic))
       
       set.seed(123)
       plot(g, edge.label = edges)
