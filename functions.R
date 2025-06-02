@@ -12,6 +12,11 @@ grammarToAutomaton <- function(listTransitions) {
   
   g <- graph(transitions, directed = TRUE) # Creates the graph object
   
+  # Adds the color scheme
+  V(g)$color <- 'white' # Default
+  V(g)[name == 'S']$color <- 'green'
+  V(g)[name == 'Z']$color <- 'red'
+  
   # Returns the graph elements
   return(list(graph = g, edges = edges))
 }
@@ -26,7 +31,7 @@ parseGrammarLine <- function(line) {
     
     # Si no hay terminal o next_variable, lo dejamos como "F"
     if (terminal == "") terminal <- ""  # Permitir transición vacía (epsilon)
-    if (next_variable == "") next_variable <- "F"
+    if (next_variable == "") next_variable <- "Z"
     
     # Devolver en el formato (S, (a, B))
     return(list(variable, list(terminal, next_variable)))

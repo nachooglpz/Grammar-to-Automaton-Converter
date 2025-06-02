@@ -6,6 +6,20 @@ library(shiny)
 # setwd('/home/nacho/Documents/Grammar-to-Automaton-Converter')
 source('functions.R')
 
+getTransitions <- function(inputText) {
+  lines <- strsplit(inputText, "\n")[[1]]
+  transitions <- list()
+  
+  for (line in lines) {
+    result <- parseGrammarLine(line)
+    if (!is.null(result)) {
+      transitions <- append(transitions, list(result))
+    }
+  }
+  
+  return(transitions)
+}
+
 ui <- fluidPage(
   
   titlePanel("Grammar to Automaton Converter"),
@@ -24,28 +38,28 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
+  trans <- reactive({
+    req(input$myinputtext)
+    getTransitions(input$myinputtext)
+  })
+  
+  output$outputText <- renderText({
+    deterministic <-isDeterministic(trans())
+    text <- if(deterministic) 'deterministic' else 'non-deterministic'
+    paste0('Type of automaton: ', text)
+  })
+  
   output$outputPlot <- renderPlot({
-    lines <- strsplit(input$myinputtext, "\n")[[1]]
-    transitions <- list()
+    transitions <- trans()
     
-    for (line in lines) {
-      result <- parseGrammarLine(line)
-      if (!is.null(result)) {
-        transitions <- append(transitions, list(result))
-      }
-    }
-    
-    if (length(transitions) == 0) {
-      print("No valid transitions found.")
-    } else {
+    if (length(transitions) != 0) {
+      # Calls the graph components
       g_obj <- grammarToAutomaton(transitions)
-      
       g <- g_obj$graph
       edges <- g_obj$edges
       
       # Llamar a isDeterministic y mostrar resultado en consola
       deterministic <- isDeterministic(transitions)
-      print(paste("¿Es determinista?:", deterministic))
       
       set.seed(123)
       plot(g, edge.label = edges)
