@@ -63,6 +63,7 @@ server <- function(input, output) {
       
       set.seed(123)
       plot(g, edge.label = edges)
+      plot(g, edge.label = edges, edge.curved = curve_multiple(g))
     }
   })
   
