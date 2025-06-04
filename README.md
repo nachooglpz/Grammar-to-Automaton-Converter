@@ -1,5 +1,9 @@
 # Grammar-to-Automaton-Converter
 
+Bernardo Santiago Marín
+Luis Ignacio Gómez López
+Francisco Raziel Aldalón Aguayo
+
 Converter Project Description
 
 In teams:
@@ -17,13 +21,39 @@ Your program needs to check if the automaton is deterministic or non determinist
 
 Example user input:
 
-S -> aA
-S -> bA
-A -> aB
-A -> bB
-A -> a
+Non deterministic
+S -> bB
 B -> aA
-B -> bA
+A -> Z
+
+Deterministic
+S -> aA
+S -> bB
+A -> aA
+A -> bB
+B -> aA
+B -> bB
+C -> aZ
+C -> bZ
+
+Non deterministic
+S -> aA
+S -> bB
+A -> aA
+A -> bB
+B -> aA
+B -> bB
+C -> aZ
+
+Non deterministic
+S -> aA
+S -> bB
+A -> aA
+A -> bB
+B -> aA
+B -> bB
+C -> aZ
+C -> aZ
 
 Example output:
 
